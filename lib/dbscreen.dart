@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/database/ApplicationDatabase.dart';
+
+import 'DatabaseInstance.dart';
 
 class User extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     return UserState();
@@ -9,11 +13,13 @@ class User extends StatefulWidget {
 }
 
 class UserState extends State<User> {
+
+
   TextEditingController namecontroller = new TextEditingController();
   TextEditingController pswdcontroller = new TextEditingController();
 
   void storeToDatabase(String name, String password) {
-    
+     DbInstance.getInstance();
   }
 
   @override

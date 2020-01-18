@@ -57,7 +57,7 @@ class _$ApplicationDatabase extends ApplicationDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  Userdao _userDaoInstance;
+  Userdao _userdaoInstance;
 
   Future<sqflite.Database> open(String name, List<Migration> migrations,
       [Callback callback]) async {
@@ -88,8 +88,8 @@ class _$ApplicationDatabase extends ApplicationDatabase {
   }
 
   @override
-  Userdao get userDao {
-    return _userDaoInstance ??= _$Userdao(database, changeListener);
+  Userdao get userdao {
+    return _userdaoInstance ??= _$Userdao(database, changeListener);
   }
 }
 
@@ -112,7 +112,7 @@ class _$Userdao extends Userdao {
   final QueryAdapter _queryAdapter;
 
   static final _table_userMapper = (Map<String, dynamic> row) =>
-      User(row['id'] as int, row['name'] as String, row['password'] as String);
+      User(id:row['id'] as int, name:row['name'] as String, password: row['password'] as String);
 
   final InsertionAdapter<User> _userInsertionAdapter;
 
