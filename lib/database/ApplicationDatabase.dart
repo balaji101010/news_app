@@ -8,6 +8,6 @@ part "ApplicationDatabase.g.dart";
 
 @Database(entities: [User], version: 1)
 abstract class ApplicationDatabase extends FloorDatabase {
-  Userdao get userDao;
+  Userdao get userDao;;
 }
 
