@@ -11,7 +11,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 part "ApplicationDatabase.g.dart";
 
 
-@Database(entities: [User], version: 1)
+@Database(entities: [User], version: 2)
 abstract class ApplicationDatabase extends FloorDatabase {
   Userdao get userdao;
 }

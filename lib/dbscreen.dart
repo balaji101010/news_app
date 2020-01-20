@@ -6,7 +6,6 @@ import 'package:news_app/database/entities/User.dart';
 import 'DatabaseInstance.dart';
 
 class DBUser extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return UserState();
@@ -14,15 +13,14 @@ class DBUser extends StatefulWidget {
 }
 
 class UserState extends State<DBUser> {
-
   ApplicationDatabase database;
 
   List<User> users;
-  
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    DbInstance.getInstance().then((value){
+    DbInstance.getInstance().then((value) {
       database = value;
     });
   }
@@ -31,15 +29,29 @@ class UserState extends State<DBUser> {
   TextEditingController pswdcontroller = new TextEditingController();
 
   Future<void> storeToDatabase(String name, String password) async {
-    await database.userdao.insertUser(new User(name: name,password:password));
+    await database.userdao.insertUser(new User(name: name, password: password));
     getFromDatabase();
   }
-  
+
+  Future<void> updateUser(String name,String password) async {
+    await database.userdao.updateUser(new User(name: name, password: password));
+    getFromDatabase();
+  }
+
   Future<void> getFromDatabase() async {
-    await database.userdao.getUsersList().then((value){
-      print(value[0].toString());
+    await database.userdao.getUsersList().then((value) {
+      value.forEach((user) {
+        print(user.toString());
+      });
     });
   }
+
+  void getUserfromId(int id){
+    database.userdao.getUserFromId(id).then((value){
+      print(value.name);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +64,21 @@ class UserState extends State<DBUser> {
           TextField(controller: namecontroller),
           TextField(controller: pswdcontroller),
           MaterialButton(
+            color: Colors.black,
+            child: Text('ok',style: TextStyle(color: Colors.white),),
             onPressed: () {
               storeToDatabase(namecontroller.text.toString(),
                   pswdcontroller.text.toString());
             },
           ),
           MaterialButton(
-            onPressed: (){
-              getFromDatabase();
+            color: Colors.black,
+            child: Text('update user with id',style: TextStyle(color: Colors.white),),
+            onPressed: () {
+              storeToDatabase(namecontroller.text.toString(),
+                  pswdcontroller.text.toString());
             },
-          )
+          ),
         ],
       ),
     );

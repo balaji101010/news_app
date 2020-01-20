@@ -65,7 +65,7 @@ class _$ApplicationDatabase extends ApplicationDatabase {
 
     return sqflite.openDatabase(
       path,
-      version: 1,
+      version: 2,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
       },
@@ -95,7 +95,7 @@ class _$ApplicationDatabase extends ApplicationDatabase {
 
 class _$Userdao extends Userdao {
   _$Userdao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
+      : _queryAdapter = QueryAdapter(database, changeListener),
         _userInsertionAdapter = InsertionAdapter(
             database,
             'table_user',
@@ -103,7 +103,28 @@ class _$Userdao extends Userdao {
                   'id': item.id,
                   'name': item.name,
                   'password': item.password
-                });
+                },
+            changeListener),
+        _userUpdateAdapter = UpdateAdapter(
+            database,
+            'table_user',
+            ['id'],
+            (User item) => <String, dynamic>{
+                  'id': item.id,
+                  'name': item.name,
+                  'password': item.password
+                },
+            changeListener),
+        _userDeletionAdapter = DeletionAdapter(
+            database,
+            'table_user',
+            ['id'],
+            (User item) => <String, dynamic>{
+                  'id': item.id,
+                  'name': item.name,
+                  'password': item.password
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -111,10 +132,16 @@ class _$Userdao extends Userdao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _table_userMapper = (Map<String, dynamic> row) =>
-      User(id: row['id'] as int, name: row['name'] as String, password: row['password'] as String);
+  static final _table_userMapper = (Map<String, dynamic> row) => User(
+      id: row['id'] as int,
+      name: row['name'] as String,
+      password: row['password'] as String);
 
   final InsertionAdapter<User> _userInsertionAdapter;
+
+  final UpdateAdapter<User> _userUpdateAdapter;
+
+  final DeletionAdapter<User> _userDeletionAdapter;
 
   @override
   Future<List<User>> getUsersList() async {
@@ -123,7 +150,29 @@ class _$Userdao extends Userdao {
   }
 
   @override
+  Future<User> getUserFromId(int id) async {
+    return _queryAdapter.query('select * from table_user where id == ?',
+        arguments: <dynamic>[id], mapper: _table_userMapper);
+  }
+
+  @override
+  Stream<List<User>> getAllUsers() {
+    return _queryAdapter.queryListStream('select * from table_user',
+        tableName: 'table_user', mapper: _table_userMapper);
+  }
+
+  @override
   Future<void> insertUser(User user) async {
     await _userInsertionAdapter.insert(user, sqflite.ConflictAlgorithm.ignore);
+  }
+
+  @override
+  Future<void> updateUser(User user) async {
+    await _userUpdateAdapter.update(user, sqflite.ConflictAlgorithm.abort);
+  }
+
+  @override
+  Future<void> deleteUser(User user) async {
+    await _userDeletionAdapter.delete(user);
   }
 }
