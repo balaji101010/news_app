@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stetho/flutter_stetho.dart';
 import 'package:news_app/api/ApiClient.dart';
 import 'package:news_app/detailScreen.dart';
 import 'package:news_app/models/ErrorResponse.dart';
@@ -9,7 +10,10 @@ import 'package:news_app/models/SearchResponse.dart';
 
 import 'constants.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  Stetho.initialize();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

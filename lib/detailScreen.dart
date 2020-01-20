@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/dbscreen.dart';
 
 import 'models/SearchResponse.dart';
 
@@ -20,6 +21,14 @@ class DetailState extends State<Detail> {
 
   DetailState(this.article);
 
+  openDb(){
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context){
+        return new DBUser();
+      }
+    ));
+  }
+
   Widget newsChilds(Article article) {
     return Container(
       child: GestureDetector(
@@ -37,11 +46,14 @@ class DetailState extends State<Detail> {
 
               Container(
                 padding: EdgeInsets.all(10),
-                child: Text(article.title,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18)),
+                child: InkWell(
+                  onTap: openDb,
+                  child: Text(article.title,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18)),
+                ),
               ),
               Container(
                 padding: EdgeInsets.all(10),
