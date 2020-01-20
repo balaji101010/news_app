@@ -112,7 +112,7 @@ class _$Userdao extends Userdao {
   final QueryAdapter _queryAdapter;
 
   static final _table_userMapper = (Map<String, dynamic> row) =>
-      User(id:row['id'] as int, name:row['name'] as String, password: row['password'] as String);
+      User(id: row['id'] as int, name: row['name'] as String, password: row['password'] as String);
 
   final InsertionAdapter<User> _userInsertionAdapter;
 
@@ -124,6 +124,6 @@ class _$Userdao extends Userdao {
 
   @override
   Future<void> insertUser(User user) async {
-    await _userInsertionAdapter.insert(user, sqflite.ConflictAlgorithm.abort);
+    await _userInsertionAdapter.insert(user, sqflite.ConflictAlgorithm.ignore);
   }
 }

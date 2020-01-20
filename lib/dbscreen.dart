@@ -30,11 +30,15 @@ class UserState extends State<DBUser> {
   TextEditingController namecontroller = new TextEditingController();
   TextEditingController pswdcontroller = new TextEditingController();
 
-  void storeToDatabase(String name, String password) {
-    database.userdao.insertUser(new User(id:2,name: name,password:password));
+  Future<void> storeToDatabase(String name, String password) async {
+    await database.userdao.insertUser(new User(name: name,password:password));
+    getFromDatabase();
   }
   
-  void getFromDatabase(){
+  Future<void> getFromDatabase() async {
+    await database.userdao.getUsersList().then((value){
+      print(value[0].toString());
+    });
   }
 
   @override

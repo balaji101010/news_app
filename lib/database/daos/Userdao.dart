@@ -9,7 +9,7 @@ abstract class Userdao{
   @Query("select * from table_user")
   Future<List<User>> getUsersList();
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.IGNORE)
   Future<void> insertUser(User user);
 
 }

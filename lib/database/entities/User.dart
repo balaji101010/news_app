@@ -7,12 +7,18 @@ import 'package:floor/floor.dart';
 class User{
 
   @PrimaryKey(autoGenerate: true)
-  int id;
+  final int id;
 
-  String name;
+  final String name;
 
-  String password;
+  final String password;
 
   User({this.id,this.name,this.password});
+
+  @override
+  String toString() {
+    return 'User{id: $id, name: $name, password: $password}';
+  }
+
 
 }
