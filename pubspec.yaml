@@ -31,6 +31,7 @@ dependencies:
   http: 0.12.0+4
   json_serializable: any
   floor: ^0.9.0
+  flutter_stetho: 0.5.0
 
 dev_dependencies:
   flutter_test:
