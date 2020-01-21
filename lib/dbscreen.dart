@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/database/ApplicationDatabase.dart';
 import 'package:news_app/database/entities/User.dart';
+import 'package:news_app/userlist_screen.dart';
 
 import 'DatabaseInstance.dart';
 
@@ -52,6 +53,12 @@ class UserState extends State<DBUser> {
     });
   }
 
+  void getAllUsers(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+      return UserList();
+    }));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +80,9 @@ class UserState extends State<DBUser> {
           ),
           MaterialButton(
             color: Colors.black,
-            child: Text('update user with id',style: TextStyle(color: Colors.white),),
+            child: Text('show list',style: TextStyle(color: Colors.white),),
             onPressed: () {
-              storeToDatabase(namecontroller.text.toString(),
-                  pswdcontroller.text.toString());
+              getAllUsers();
             },
           ),
         ],
